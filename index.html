@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>To Do Task Sheet</title>
+        <link rel ="stylesheet" href = "styles.css">
+    </head>
+    <body>
+        <h1>Task Manager</h1>
+
+        <!--Create two lists titles (to do list and completed list)-->
+        <div class = "lists">
+
+            <div id = "toDoList">
+                <h2>Today's Tasks:</h2>
+                <ol id = "toDo">
+                </ol>
+            </div>
+
+            <div id = "doneList">
+                <h2>Completed Tasks:</h2>
+                <ul id = "done">
+                </ul>
+            </div>
+
+        </div>
+
+        <!--Create buttons for adding, deleting tasks and resetting both lists-->
+        <div class = "buttons">
+            <input type = "text" id = "newTask" name = "newTask">
+            <button id = "addItemButton" onclick = addTask()>Add a task</button>
+
+            <button id = "deleteTask" onclick = removeTask()>Complete task # </button>
+            <input type = "number" id = "completeTask">
+        </div>
+
+        <div class = "buttons">
+            <button id = "reset" id = "reset" onclick = reset()>Reset</button>
+        </div>
+
+
+    <script>
+
+        //Create array for task list and reload To Do list from previous session.
+        const tasks = [];
+
+        const storedTasks = JSON.parse(localStorage.getItem('myTasks'));
+       
+        //Populate to-do list from local storage
+        if(storedTasks){
+            tasks.push(...storedTasks);
+            console.log(tasks);
+
+            for(let i = 0; i < tasks.length; i++) {
+                const repopList = document.createElement('li');
+                repopList.innerHTML = tasks[i];
+                toDo.appendChild(repopList);
+            }
+            
+
+        }
+        
+        //Function to take string from input field and add each task to the ordered list
+        function addTask() {
+
+            const userInput = document.getElementById('newTask'); 
+            const newTask = userInput.value;
+            tasks.push(newTask);
+            
+            
+            const addToList = document.createElement('li');
+            const i = tasks.length - 1;
+            addToList.innerHTML = tasks[i];
+            toDo.appendChild(addToList);
+
+        
+            clearTaskInput();
+            saveTasks();
+        }
+
+        //Saves the to-do list to local Storage
+        function saveTasks() {
+            const jsonTasks = JSON.stringify(tasks);
+            console.log(jsonTasks);
+            localStorage.setItem('myTasks', jsonTasks);
+        }
+
+        //Clear to-do list input field
+        function clearTaskInput(){
+            document.getElementById('newTask').value = ' ';
+
+        }
+
+        //Clear 'delete task' input field #
+        function clearNumberInput(){
+            document.getElementById("completeTask").value = ' ';
+        }
+        
+        //Takes in a # (corresponding to a task), deletes that task from the To Do list and adds it to Complete Task list
+        function removeTask() {
+
+            const deleteNumber = document.getElementById('completeTask').value;
+            const updateNumber = deleteNumber-1;
+
+            const compTask = tasks[updateNumber];
+            const addToList = document.createElement('li');
+
+            addToList.innerHTML = compTask;
+            done.appendChild(addToList);
+
+            //delete requested item from Task Array
+            tasks.splice(updateNumber, 1);
+            saveTasks();
+
+            //Clear To Do List
+            toDo.innerHTML = '';
+
+            //Repopulate to do list with all tasks except for removed task
+            for (i in tasks) {
+                const addToList = document.createElement('li');
+                addToList.innerHTML = tasks[i];
+                toDo.appendChild(addToList);
+            }
+
+            clearNumberInput();
+        }
+
+        //Clears all lists and saved storage items
+        function reset(){
+            tasks.length = 0;
+            toDo.innerHTML = '';
+            done.innerHTML = '';
+            localStorage.removeItem('myTasks');
+        }
+
+    </script>
+    
+    </body>
+
+</html>

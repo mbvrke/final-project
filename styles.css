@@ -1,0 +1,48 @@
+h1 {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 75px;
+    text-align: center;
+    @media (max-width: 800px) {
+        font-size: 40px
+    }
+    padding: 25px;
+    margin: 0% 1%;
+    background-color: #eca1a6;
+    color: black;
+}
+
+h2{
+    font-size: 25px;
+}
+
+.lists {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #bdcebe;
+    display: flex;
+    margin: 0% 1%;
+    justify-content: space-evenly;
+}
+
+.buttons{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #bdcebe;
+    color: #ada397; 
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0% 1%;
+    padding: 20px;
+}
+
+button {
+    background-color: #ada397;
+    color:black;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+button:hover{
+    background-color: #eca1a6;
+}
+
+
